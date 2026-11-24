@@ -1,0 +1,6 @@
+[environments.llm-workbench]
+label = "FUMI-43 LLM 流式适配验证台 (C#)"
+start = "sh Tools/LlmStreamingProbe/run.sh --serve --port $MULTICA_PORT"
+url = "http://localhost:$MULTICA_PORT"
+ready = "http://localhost:$MULTICA_PORT/healthz"
+ttl = "24h"
