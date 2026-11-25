@@ -6,9 +6,9 @@
 
 ## 版本与资产
 
-工程采用安装包自带 Universal 3D 模板的项目设置与包版本作为候选。URP `17.0.1`、Unity Test Framework `1.4.2` 和内置 IMGUI、JSON 模块写入 manifest；传递包版本记录在 lockfile。使用 Visible Meta Files 与 Force Text。URP 资产关闭 HDR，示例相机不开启后处理。透明窗口实测由 FUMI-45 负责。
+工程基于安装包自带 Universal 3D 模板的项目设置。Unity `6000.3.28f1` 实际解析到 URP `17.3.0` 和 Unity Test Framework `1.6.0`，与内置 IMGUI、JSON 模块一起写入 manifest。传递包版本记录在 Unity 生成的 lockfile。使用 Visible Meta Files 与 Force Text。URP 资产关闭 HDR，示例相机不开启后处理。透明窗口实测由 FUMI-45 负责。
 
-只使用 Unity 官方模板和配套包。确切包条款以 Unity Package Manager 和各包许可证为准，安装包发布前需复核；本工程未引入第三方角色、字体、语音和桌面原生插件。
+已核对本机解析到的 URP 与 Unity Test Framework 包 LICENSE，均标明适用于 Unity 依赖项目的 Unity Companion License。内置模块随编辑器提供，本工程未引入第三方角色、字体、语音和桌面原生插件。
 
 ## 程序集与公共契约
 
