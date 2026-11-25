@@ -43,7 +43,7 @@ flowchart LR
 终端进入空目录，检出任务分支后，在仓库根目录执行。请让 EditMode 测试运行器退出进程并检查 XML；用例执行时不要额外传 `-quit`。
 
 ```powershell
-git clone --branch feat/FUMI-42-unity-baseline https://github.com/ninjaz0/xiaosuchongban.git xiaosu-clean
+git clone --branch feat/FUMI-42-unity-baseline https://github.com/OcnStar/xiaosuchongban.git xiaosu-clean
 Set-Location xiaosu-clean
 $unity = 'C:\path\to\6000.3.28f1\Editor\Unity.exe'
 $root = (Get-Location).Path
