@@ -22,6 +22,18 @@
 | `Xiaosu.Bootstrap` | Mock 演示和组合入口，引用 Core、Avatar、LLM、Speech |
 | `Xiaosu.Tests.EditMode` | 独立编辑器测试，引用 Bootstrap、Core、LLM |
 
+```mermaid
+flowchart LR
+    Tests["Tests.EditMode"] --> Bootstrap
+    Tests --> Core
+    Tests --> LLM
+    Bootstrap --> Core
+    Bootstrap --> Avatar
+    Bootstrap --> LLM
+    Bootstrap --> Speech
+    Platform["Platform · 独立接口"]
+```
+
 合同层不引用 UnityEngine。演示 UI 位于 Bootstrap，后续正式 UI 可独立分层。异步操作接收调用方的 `CancellationToken`；调用方关闭场景时先取消，完成收尾后释放资源。已有 LLM 契约以 `IsCancelled` 返回取消结果；其他异步 Mock 对取消抛出 `OperationCanceledException`。真实 LLM 事件消费者在接触 Unity 对象前应调度到 Unity 主线程。
 
 破壳档案只包含角色标识、外观、人格与行为倾向。存储接口接受设置、档案和习惯，不提供写入原始对话或小镇经历的方法；内存 Mock 不落盘。安全 enum 只定义响应类别，检测、紧急提示与正式持久化隔离由后续实施与回归验证。
@@ -39,10 +51,18 @@ New-Item -ItemType Directory "$root\Logs" -Force | Out-Null
 & $unity -batchmode -nographics -projectPath $root -runTests -testPlatform EditMode -testResults "$root\Logs\EditMode.xml" -logFile "$root\Logs\EditMode.log" | Out-Host
 ```
 
-从 Test Runner 或结果 XML 核对流式完成、取消后无后续文本/表情、撤销习惯不改变初始人格三项用例。另用带图形界面的编辑器验证场景和游戏视图，再记录 Windows 构建结果。macOS 由队友按相同版本复验并独立记录。
+从 Test Runner 或结果 XML 核对流式完成、取消后无后续文本／表情、撤销习惯不改变初始人格三项用例。Windows x64 构建可在相同检出中执行：
+
+```powershell
+New-Item -ItemType Directory "$root\Build\Win64" -Force | Out-Null
+& $unity -batchmode -quit -projectPath $root -buildWindows64Player "$root\Build\Win64\XiaosuMockDemo.exe" -logFile "$root\Logs\WindowsBuild.log" | Out-Host
+```
+
+启动构建产物验证场景。macOS 由队友按相同版本复验并独立记录。
 
 ## 当前验证状态
 
-- Windows 已确认安装 Unity `6000.3.28f1 (8f082d2fe476)`。启动批处理时 Unity 返回 198，提示没有有效的 Editor 许可证。
-- 用该版本 Unity 自带 Roslyn 按程序集编译了运行时代码和三条 EditMode 测试源码。FUMI-43 独立回环模拟套件在 Windows x64、.NET 6.0.21 下跑过 8／8；取消后残留事件为 0。该套件不需要启动 Unity Editor。
-- 编辑器导入、URP 实际恢复、EditMode 测试、场景 Play、Windows 构建以及 macOS 均需在具备有效许可证的环境中复验。
+- **Windows x64，Unity `6000.3.28f1 (8f082d2fe476)`。** 从无 `Library` 的本地 Git 克隆导入，解析 URP 17.3.0 与 Test Framework 1.6.0。最终验证检出 `6029e91` 的批处理退出码为 0，EditMode 3／3 通过。
+- **Windows x64 Player 构建成功。** 从上一个验证检出 `f477c64` 构建，编辑器在该检出中加载并升级 URP 设置。启动 `XiaosuMockDemo.exe`，输入文字并发送，界面从 `Streaming` 进入 `Complete`，显示完整模拟回复，表情从 `neutral` 切换为 `calm`。取消路径由 EditMode 用例覆盖。
+- **FUMI-43 回归。** 独立回环模拟套件在 Windows x64、.NET 6.0.21 下 8／8 通过，取消后残留事件为 0。该套件独立于 Unity Editor。
+- **待复验。** macOS、透明原生窗口、真实 Avatar／TTS／模型端点和实际安全响应均由对应任务验证。
