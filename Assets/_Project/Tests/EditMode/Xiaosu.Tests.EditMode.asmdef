@@ -1,0 +1,15 @@
+{
+  "name": "Xiaosu.Tests.EditMode",
+  "references": [
+    "Xiaosu.Bootstrap",
+    "Xiaosu.Core",
+    "Xiaosu.CompanionAI.LLM"
+  ],
+  "noEngineReferences": false,
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

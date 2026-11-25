@@ -1,0 +1,10 @@
+{
+  "name": "Xiaosu.Bootstrap",
+  "references": [
+    "Xiaosu.Avatar",
+    "Xiaosu.Core",
+    "Xiaosu.CompanionAI.LLM",
+    "Xiaosu.CompanionAI.Speech"
+  ],
+  "noEngineReferences": false
+}
