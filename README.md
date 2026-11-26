@@ -2,7 +2,7 @@
 
 面向桌面的 AI 陪伴项目，目标支持 Windows/macOS、VRM 与 Live2D 角色、语音交互和本地记忆。
 
-当前仓库处于工程初始化阶段；这次提交提供协作规范与 Git 配置，尚无可运行 Unity 工程或安装包。能力以实际构建与验收证据为准。
+仓库根目录是 Unity 工程。使用 Unity Hub 添加此目录，打开 `Assets/_Project/Scenes/BaselineDemo.unity`。编辑器版本、测试步骤和验证状态见 [FUMI-42 工程交接记录](docs/verification/FUMI-42-unity-baseline.md)。
 
 ## 开始协作
 

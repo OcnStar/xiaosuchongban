@@ -5,6 +5,7 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 REPO_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/../.." && pwd)
 BUILD_DIR="$SCRIPT_DIR/.build"
 SRC_ROOT="$REPO_ROOT/Verification/FUMI43_LlmStreaming"
+RUNTIME_ROOT="$REPO_ROOT/Assets/_Project/CompanionAI/LLM"
 
 DOTNET_HOST="${DOTNET_HOST:-}"
 ROSLYN_CSC_DLL="${ROSLYN_CSC_DLL:-}"
@@ -115,7 +116,7 @@ MAJOR_VER=$(printf "%s" "$RUNTIME_VER" | cut -d. -f1)
 NEEDS_BUILD=0
 if [ ! -f "$OUT_DLL" ]; then
     NEEDS_BUILD=1
-elif [ -n "$(find "$SRC_ROOT" -name '*.cs' -newer "$OUT_DLL" 2>/dev/null)" ]; then
+elif [ -n "$(find "$SRC_ROOT" "$RUNTIME_ROOT" -name '*.cs' -newer "$OUT_DLL" 2>/dev/null)" ]; then
     NEEDS_BUILD=1
 fi
 
@@ -133,7 +134,7 @@ if [ "$NEEDS_BUILD" -eq 1 ]; then
             -r:"$UNITY_NETSTANDARD_DLL" \
             -target:library \
             -out:"$BUILD_DIR/Xiaosu.CompanionAI.LLM.netstandard21.dll" \
-            "$SRC_ROOT"/Runtime/*.cs
+            "$RUNTIME_ROOT"/*.cs
         XIAOSU_NETSTANDARD21_VERIFIED=1
     fi
 
@@ -154,7 +155,7 @@ if [ "$NEEDS_BUILD" -eq 1 ]; then
         @"$RSP_FILE" \
         -target:exe \
         -out:"$OUT_DLL" \
-        "$SRC_ROOT"/Runtime/*.cs \
+        "$RUNTIME_ROOT"/*.cs \
         "$SRC_ROOT"/Probe/*.cs
 
     cat > "$BUILD_DIR/LlmStreamingProbe.runtimeconfig.json" <<EOF
